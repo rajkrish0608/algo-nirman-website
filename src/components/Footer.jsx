@@ -3,12 +3,12 @@ import React from 'react';
 const Footer = () => {
     return (
         <footer style={{
-            background: 'var(--color-background-dark)',
+            background: 'var(--color-strategic-dark)', /* Darkest background */
             color: 'var(--color-text-secondary)',
             textAlign: 'center',
             padding: 'var(--spacing-md)',
             fontSize: '0.9rem',
-            borderTop: '1px solid rgba(255, 193, 7, 0.1)'
+            borderTop: '1px solid rgba(255, 153, 51, 0.1)' /* Saffron accent border */
         }}>
             <div className="container">
                 <p>&copy; {new Date().getFullYear()} Algo Nirman Hackathon. All rights reserved.</p>

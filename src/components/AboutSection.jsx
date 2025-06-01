@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const AboutSection = () => {
     const sectionRef = useRef(null);
     const backgroundRef = useRef(null);
-    const textRef = useRef(null);
+    const textRef = useRef(null); // Not directly used by Framer Motion anymore for whileInView
 
     useEffect(() => {
         if (sectionRef.current && backgroundRef.current && textRef.current) {
@@ -25,29 +25,29 @@ const AboutSection = () => {
                 }
             });
 
-            // Parallax for text (subtle)
-            gsap.fromTo(textRef.current, {
-                y: -50,
-                opacity: 0,
-            }, {
-                y: 0,
-                opacity: 1,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: sectionRef.current,
-                    start: "top center+=100",
-                    toggleActions: "play none none reverse",
-                }
-            });
+            // Parallax for text (subtle) - Framer Motion's whileInView handles this
+            // gsap.fromTo(textRef.current, {
+            //     y: -50,
+            //     opacity: 0,
+            // }, {
+            //     y: 0,
+            //     opacity: 1,
+            //     ease: "power2.out",
+            //     scrollTrigger: {
+            //         trigger: sectionRef.current,
+            //         start: "top center+=100",
+            //         toggleActions: "play none none reverse",
+            //     }
+            // });
         }
     }, []);
 
     return (
-        <section id="about" ref={sectionRef} style={{ background: 'linear-gradient(to bottom, var(--color-slate-gray), var(--color-dark-green))', overflow: 'hidden' }}>
+        <section id="about" ref={sectionRef} style={{ background: 'linear-gradient(to bottom, var(--color-indian-navy-blue), var(--color-indian-army-green))', overflow: 'hidden' }}>
             <div ref={backgroundRef} style={{
                 position: 'absolute',
                 top: '-10%', left: '-10%', width: '120%', height: '120%',
-                backgroundImage: 'url(https://placehold.co/1200x800/1F304B/A0A0A0?text=ABSTRACT+PATTERN)', // Placeholder for abstract pattern
+                backgroundImage: 'url(https://via.placeholder.com/1200x800/0C1E3C/000080?text=Abstract+Indian+Motif)', // Example of an abstract background
                 backgroundSize: 'cover',
                 opacity: 0.1,
                 filter: 'blur(2px)',
@@ -55,7 +55,6 @@ const AboutSection = () => {
             }}></div>
             <div className="container" style={{ textAlign: 'center', zIndex: 1 }}>
                 <motion.h2
-                    // ref={textRef} // Framer Motion handles this better with whileInView
                     initial={{ opacity: 0, y: -20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.5 }}

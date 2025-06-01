@@ -30,7 +30,7 @@ const HeroSection = () => {
 
             // Add a simple 3D object (e.g., a Dodecahedron)
             const geometry = new THREE.DodecahedronGeometry(1.5); // Size of the object
-            const material = new THREE.MeshPhongMaterial({ color: 0x2C425D, flatShading: true }); // Dark steel color
+            const material = new THREE.MeshPhongMaterial({ color: 0x4A4E5C, flatShading: true }); // Indian Airforce Grey
             object = new THREE.Mesh(geometry, material);
             scene.add(object);
 
@@ -42,7 +42,7 @@ const HeroSection = () => {
             directionalLight.position.set(5, 5, 5).normalize();
             scene.add(directionalLight);
 
-            const pointLight = new THREE.PointLight(0xFFC107, 1, 100); // Amber light
+            const pointLight = new THREE.PointLight(0xFF9933, 1, 100); // Saffron accent color
             pointLight.position.set(0, 5, -5);
             scene.add(pointLight);
 
@@ -79,7 +79,7 @@ const HeroSection = () => {
         initThree();
     }, []);
 
-    // Countdown Timer Logic
+    // Countdown Timer Logic (assuming same target date)
     useEffect(() => {
         const targetDate = new Date('September 6, 2025 00:00:00 GMT+0530').getTime(); // IST (GMT+5:30)
 
@@ -108,14 +108,14 @@ const HeroSection = () => {
     }, []);
 
     return (
-        <section id="home" style={{ background: 'linear-gradient(to right top, var(--color-deep-blue), var(--color-slate-gray), var(--color-dark-steel))' }}>
+        <section id="home" style={{ background: 'linear-gradient(to right top, var(--color-strategic-dark), var(--color-indian-navy-blue), var(--color-indian-airforce-grey))' }}>
             <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}></div>
             <div className="container" style={{ textAlign: 'center', zIndex: 2, position: 'relative' }}>
                 <motion.h1
                     initial={{ opacity: 0, y: -50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    style={{ fontSize: '4.5rem', marginBottom: 'var(--spacing-md)', textShadow: '0 0 15px rgba(255, 193, 7, 0.5)' }}
+                    style={{ fontSize: '4.5rem', marginBottom: 'var(--spacing-md)', textShadow: '0 0 15px rgba(255, 153, 51, 0.5)' }} /* Saffron text shadow */
                 >
                     Algo Nirman
                 </motion.h1>
@@ -140,11 +140,11 @@ const HeroSection = () => {
                             borderRadius: 'var(--border-radius-md)',
                             minWidth: '100px',
                             textAlign: 'center',
-                            border: '1px solid rgba(255, 193, 7, 0.3)',
+                            border: '1px solid rgba(255, 153, 51, 0.3)', /* Saffron accent border */
                             fontFamily: 'monospace',
                             fontSize: '1.8rem',
                             fontWeight: 'bold',
-                            color: 'var(--color-accent)'
+                            color: 'var(--color-saffron-accent)' /* Saffron accent color */
                         }}>
                             {String(value).padStart(2, '0')}
                             <p style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.2rem' }}>{unit}</p>

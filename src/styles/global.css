@@ -1,24 +1,29 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&family=Poppins:wght@500;700&display=swap');
 
 :root {
-    /* Colors */
-    --color-deep-blue: #0A192F;
-    --color-slate-gray: #1F304B;
-    --color-dark-steel: #2C425D;
-    --color-muted-green: #3D5A5B;
-    --color-dark-green: #2A4041;
-    --color-amber: #FFC107;
-    --color-deep-orange: #FF9800;
-    --color-light-gray: #A0A0A0;
-    --color-white: #E0E0E0;
-    --color-text-primary: var(--color-white);
-    --color-text-secondary: var(--color-light-gray);
-    --color-background-dark: var(--color-deep-blue);
-    --color-background-medium: var(--color-slate-gray);
-    --color-background-light: var(--color-dark-steel);
-    --color-accent: var(--color-amber);
+    /* Indian Military & Defense Theme Colors */
+    --color-indian-army-green: #3A5741; /* Deep Olive Green */
+    --color-indian-navy-blue: #0C1E3C; /* Dark Navy Blue */
+    --color-indian-airforce-grey: #4A4E5C; /* Dark Grey */
+    --color-strategic-dark: #071324; /* Even darker, almost black for backgrounds */
+    --color-saffron-accent: #FF9933; /* Vibrant Saffron */
+    --color-white-bright: #FFFFFF; /* Pure White */
+    --color-ashoka-blue: #000080; /* Dark blue for subtle Ashoka Chakra feel */
+    --color-metallic-gold: #D4AF37; /* For accents */
+    --color-light-neutral: #C0C0C0; /* For secondary text/elements */
 
-    /* Fonts */
+
+    /* Mapping to Generic Roles */
+    --color-text-primary: var(--color-white-bright);
+    --color-text-secondary: var(--color-light-neutral);
+    --color-background-dark: var(--color-strategic-dark);
+    --color-background-medium: var(--color-indian-navy-blue);
+    --color-background-light: var(--color-indian-airforce-grey);
+    --color-accent: var(--color-saffron-accent); /* Main accent color */
+    --color-secondary-accent: var(--color-ashoka-blue); /* Secondary accent */
+
+    /* Fonts (kept same as they are versatile) */
     --font-heading: 'Montserrat', sans-serif;
     --font-subheading: 'Poppins', sans-serif;
     --font-body: 'Open Sans', sans-serif;
@@ -40,7 +45,7 @@
     --transition-medium: 0.4s ease-in-out;
 }
 
-/* Accessibility Overrides */
+/* Accessibility Overrides (Adjusted for new palette) */
 body.high-contrast {
     --color-text-primary: #FFFF00; /* Yellow */
     --color-text-secondary: #FFFFFF; /* White */
@@ -48,7 +53,10 @@ body.high-contrast {
     --color-background-medium: #333333;
     --color-background-light: #666666;
     --color-accent: #00FFFF; /* Cyan */
+    --color-secondary-accent: #FF00FF; /* Magenta */
 }
+
+/* ... rest of global.css remains the same ... */
 
 body.grayscale {
     filter: grayscale(100%);
@@ -148,4 +156,21 @@ section {
     h2 { font-size: 1.8rem; }
     h3 { font-size: 1.3rem; }
     section { padding: var(--spacing-md) var(--spacing-sm); }
+}
+
+/* Navbar Specific Styles */
+body {
+    padding-top: 70px; /* Adjust based on navbar height */
+}
+
+@media (max-width: 768px) {
+    .desktop-nav {
+        display: none !important; /* Hide desktop nav on small screens */
+    }
+    .hamburger-menu {
+        display: block !important; /* Show hamburger icon */
+    }
+    .mobile-overlay {
+        /* Styles already defined inline in Navbar.jsx */
+    }
 }

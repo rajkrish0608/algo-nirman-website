@@ -25,8 +25,8 @@ const AccessibilityMenu = ({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 style={{
-                    backgroundColor: 'var(--color-accent)',
-                    color: 'var(--color-deep-blue)',
+                    backgroundColor: 'var(--color-accent)', /* Saffron accent */
+                    color: 'var(--color-strategic-dark)', /* Dark text for contrast */
                     border: 'none',
                     borderRadius: '50%',
                     width: '50px',
@@ -46,7 +46,7 @@ const AccessibilityMenu = ({
             {isOpen && (
                 <div style={{
                     backgroundColor: 'rgba(0,0,0,0.8)',
-                    border: '1px solid var(--color-accent)',
+                    border: '1px solid var(--color-accent)', /* Saffron accent border */
                     borderRadius: 'var(--border-radius-md)',
                     padding: 'var(--spacing-sm)',
                     marginTop: 'var(--spacing-sm)',
@@ -60,7 +60,7 @@ const AccessibilityMenu = ({
                         style={{
                             padding: 'var(--spacing-xs) var(--spacing-sm)',
                             backgroundColor: isHighContrast ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                            color: isHighContrast ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                            color: isHighContrast ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                             border: 'none',
                             borderRadius: 'var(--border-radius-sm)',
                             cursor: 'pointer',
@@ -74,7 +74,7 @@ const AccessibilityMenu = ({
                         style={{
                             padding: 'var(--spacing-xs) var(--spacing-sm)',
                             backgroundColor: isGrayscale ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                            color: isGrayscale ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                            color: isGrayscale ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                             border: 'none',
                             borderRadius: 'var(--border-radius-sm)',
                             cursor: 'pointer',
@@ -90,7 +90,7 @@ const AccessibilityMenu = ({
                             style={{
                                 padding: 'var(--spacing-xs) var(--spacing-sm)',
                                 backgroundColor: fontSize === 'normal' ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                color: fontSize === 'normal' ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                                color: fontSize === 'normal' ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                                 border: 'none',
                                 borderRadius: 'var(--border-radius-sm)',
                                 cursor: 'pointer',
@@ -104,7 +104,7 @@ const AccessibilityMenu = ({
                             style={{
                                 padding: 'var(--spacing-xs) var(--spacing-sm)',
                                 backgroundColor: fontSize === 'large' ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                color: fontSize === 'large' ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                                color: fontSize === 'large' ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                                 border: 'none',
                                 borderRadius: 'var(--border-radius-sm)',
                                 cursor: 'pointer',
@@ -118,7 +118,7 @@ const AccessibilityMenu = ({
                             style={{
                                 padding: 'var(--spacing-xs) var(--spacing-sm)',
                                 backgroundColor: fontSize === 'xlarge' ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                                color: fontSize === 'xlarge' ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                                color: fontSize === 'xlarge' ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                                 border: 'none',
                                 borderRadius: 'var(--border-radius-sm)',
                                 cursor: 'pointer',
@@ -133,7 +133,7 @@ const AccessibilityMenu = ({
                         style={{
                             padding: 'var(--spacing-xs) var(--spacing-sm)',
                             backgroundColor: isAnimationsDisabled ? 'var(--color-accent)' : 'rgba(255,255,255,0.1)',
-                            color: isAnimationsDisabled ? 'var(--color-deep-blue)' : 'var(--color-text-primary)',
+                            color: isAnimationsDisabled ? 'var(--color-strategic-dark)' : 'var(--color-text-primary)',
                             border: 'none',
                             borderRadius: 'var(--border-radius-sm)',
                             cursor: 'pointer',

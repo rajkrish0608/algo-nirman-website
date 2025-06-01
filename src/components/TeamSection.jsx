@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const TeamSection = () => {
     return (
-        <section id="team" style={{ background: 'linear-gradient(to left, var(--color-muted-green), var(--color-dark-green))' }}>
+        <section id="team" style={{ background: 'linear-gradient(to left, var(--color-indian-army-green), var(--color-strategic-dark))' }}>
             <div className="container" style={{ textAlign: 'center' }}>
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
@@ -23,7 +23,7 @@ const TeamSection = () => {
                         background: 'rgba(0,0,0,0.3)',
                         padding: 'var(--spacing-lg)',
                         borderRadius: 'var(--border-radius-lg)',
-                        border: '1px solid rgba(255, 193, 7, 0.2)',
+                        border: '1px solid rgba(255, 153, 51, 0.2)', /* Saffron accent border */
                         boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
                         maxWidth: '800px',
                         margin: '0 auto',

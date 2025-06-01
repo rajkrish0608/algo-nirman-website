@@ -12,7 +12,7 @@ const TracksSection = () => {
     ];
 
     return (
-        <section id="tracks" style={{ background: 'linear-gradient(to top, var(--color-dark-steel), var(--color-slate-gray))' }}>
+        <section id="tracks" style={{ background: 'linear-gradient(to top, var(--color-indian-airforce-grey), var(--color-indian-navy-blue))' }}>
             <div className="container" style={{ textAlign: 'center' }}>
                 <motion.h2
                     initial={{ opacity: 0, y: -20 }}
@@ -40,18 +40,18 @@ const TracksSection = () => {
                                 background: 'rgba(0,0,0,0.3)',
                                 padding: 'var(--spacing-md)',
                                 borderRadius: 'var(--border-radius-lg)',
-                                border: '1px solid rgba(255, 193, 7, 0.2)',
+                                border: '1px solid rgba(255, 153, 51, 0.2)', /* Saffron accent border */
                                 boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
                                 textAlign: 'center',
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                transition: 'transform var(--transition-fast), box-shadow var(--transition-fast)',
+                                transition: 'transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast)',
                             }}
                             whileHover={{
                                 scale: 1.03,
                                 boxShadow: '0 12px 40px rgba(0,0,0,0.7)',
-                                borderColor: 'var(--color-accent)',
+                                borderColor: 'var(--color-saffron-accent)', /* Saffron accent on hover */
                             }}
                         >
                             <span style={{ fontSize: '3rem', marginBottom: 'var(--spacing-sm)' }}>{track.icon}</span>
