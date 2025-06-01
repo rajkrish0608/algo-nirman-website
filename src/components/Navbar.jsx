@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React, { useState } from 'react';
 
 const Navbar = () => {
@@ -9,8 +10,14 @@ const Navbar = () => {
         { name: 'Timeline', href: '#timeline' },
         { name: 'Tracks', href: '#tracks' },
         { name: 'Guests', href: '#guests' },
+        { name: 'Rules', href: '#rules' }, // NEW
+        { name: 'Sponsors', href: '#sponsors' }, // NEW
         { name: 'FAQ', href: '#faq' },
+        { name: 'Team Finder', href: '#team-finder' }, // NEW
+        { name: 'Resources', href: '#resources' }, // NEW
+        { name: 'Showcase', href: '#showcase' }, // NEW
         { name: 'Contact', href: '#contact' },
+        { name: 'Register', href: '#register' }, // NEW
     ];
 
     return (
@@ -40,7 +47,7 @@ const Navbar = () => {
                     fontSize: '1.8rem',
                     textDecoration: 'none',
                     fontWeight: 700,
-                    textShadow: '0 0 5px rgba(255, 193, 7, 0.3)',
+                    textShadow: '0 0 5px rgba(255, 153, 51, 0.3)', // Saffron glow
                 }}>
                     Algo Nirman
                 </a>

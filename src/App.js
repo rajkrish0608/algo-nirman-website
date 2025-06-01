@@ -4,27 +4,27 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 // Import Components
-import LoadingScreen from './components/LoadingScreen'; // <--- ADD THIS LINE
+import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
-import TimelineSection from './components/TimelineSection'; // Renamed from DetailsSection
+import TimelineSection from './components/TimelineSection';
 import TracksSection from './components/TracksSection';
 import TeamSection from './components/TeamSection';
 import Footer from './components/Footer';
 import AccessibilityMenu from './components/AccessibilityMenu';
 
-// --- ADD THESE NEW IMPORTS FOR NEW SECTIONS ---
-import GuestsSection from './components/GuestsSection'; // Will be updated later
+// --- ALL NEW IMPORTS ---
+import GuestsSection from './components/GuestsSection';
 import FAQSection from './components/FAQSection';
-import ContactSection from './components/ContactSection'; // Will be updated later
-import RulesSection from './components/RulesSection'; // <--- NEW SECTION
-import SponsorsSection from './components/SponsorsSection'; // <--- NEW SECTION
-import RegistrationSection from './components/RegistrationSection'; // <--- NEW SECTION
-import TeamFinderSection from './components/TeamFinderSection'; // <--- NEW SECTION
-import ResourcesSection from './components/ResourcesSection'; // <--- NEW SECTION
-import ShowcaseSection from './components/ShowcaseSection'; // <--- NEW SECTION
-// --------------------------------------------------
+import ContactSection from './components/ContactSection';
+import RulesSection from './components/RulesSection';
+import SponsorsSection from './components/SponsorsSection';
+import RegistrationSection from './components/RegistrationSection';
+import TeamFinderSection from './components/TeamFinderSection';
+import ResourcesSection from './components/ResourcesSection';
+import ShowcaseSection from './components/ShowcaseSection';
+// -----------------------
 
 // Import Global Styles
 import './styles/global.css';
@@ -33,7 +33,7 @@ import './styles/global.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const App = () => {
-    const [isLoading, setIsLoading] = useState(true); // <--- ADD THIS STATE
+    const [isLoading, setIsLoading] = useState(true);
 
     // Accessibility States
     const [isHighContrast, setIsHighContrast] = useState(false);
@@ -47,7 +47,7 @@ const App = () => {
         body.classList.toggle('high-contrast', isHighContrast);
         body.classList.toggle('grayscale', isGrayscale);
         body.classList.toggle('text-large', fontSize === 'large');
-        body.classList.toggle('text-xlage', fontSize === 'xlarge');
+        body.classList.toggle('text-xlarge', fontSize === 'xlarge'); // Corrected typo here
         body.classList.toggle('animations-disabled', isAnimationsDisabled);
     }, [isHighContrast, isGrayscale, fontSize, isAnimationsDisabled]);
 
@@ -62,7 +62,7 @@ const App = () => {
 
     return (
         <div className="App">
-            {isLoading && <LoadingScreen onLoaded={handleLoadingComplete} />} {/* <--- ADD THIS BLOCK */}
+            {isLoading && <LoadingScreen onLoaded={handleLoadingComplete} />}
 
             {/* Only render content when not loading */}
             {!isLoading && (
@@ -70,18 +70,18 @@ const App = () => {
                     <Navbar />
                     <HeroSection />
                     <AboutSection />
-                    <TimelineSection /> {/* Now a detailed timeline */}
+                    <TimelineSection />
                     <TracksSection />
                     <TeamSection />
-                    <GuestsSection /> {/* Will be enhanced */}
-                    <RulesSection /> {/* <--- NEW SECTION */}
-                    <SponsorsSection /> {/* <--- NEW SECTION */}
+                    <GuestsSection />
+                    <RulesSection /> {/* NEW */}
+                    <SponsorsSection /> {/* NEW */}
                     <FAQSection />
-                    <TeamFinderSection /> {/* <--- NEW SECTION */}
-                    <ResourcesSection /> {/* <--- NEW SECTION */}
-                    <ShowcaseSection /> {/* <--- NEW SECTION */}
-                    <ContactSection /> {/* Will be updated for Discord */}
-                    <RegistrationSection /> {/* <--- NEW SECTION (placeholder for now) */}
+                    <TeamFinderSection /> {/* NEW */}
+                    <ResourcesSection /> {/* NEW */}
+                    <ShowcaseSection /> {/* NEW */}
+                    <ContactSection />
+                    <RegistrationSection /> {/* NEW */}
                     <Footer />
                     <AccessibilityMenu
                         isHighContrast={isHighContrast}
