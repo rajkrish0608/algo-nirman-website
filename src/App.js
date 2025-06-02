@@ -1,4 +1,4 @@
-// src/App.js
+// src/App.js - UPDATED FOR MORE ACCESSIBILITY OPTIONS
 import React, { useState, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,7 +14,7 @@ import TeamSection from './components/TeamSection';
 import Footer from './components/Footer';
 import AccessibilityMenu from './components/AccessibilityMenu';
 
-// --- ALL NEW IMPORTS ---
+// --- ALL NEW IMPORTS (from previous step) ---
 import GuestsSection from './components/GuestsSection';
 import FAQSection from './components/FAQSection';
 import ContactSection from './components/ContactSection';
@@ -41,19 +41,44 @@ const App = () => {
     const [fontSize, setFontSize] = useState('normal'); // 'normal', 'large', 'xlarge'
     const [isAnimationsDisabled, setIsAnimationsDisabled] = useState(false);
 
+    // --- NEW ACCESSIBILITY STATES ---
+    const [colorblindMode, setColorblindMode] = useState('none'); // 'none', 'protanopia', 'deuteranopia', 'tritanopia'
+    const [isDyslexicFont, setIsDyslexicFont] = useState(false);
+    const [codeTheme, setCodeTheme] = useState('default'); // 'default', 'high-contrast-light', 'futuristic-dark'
+    // --------------------------------
+
     // Apply accessibility classes to body
     useEffect(() => {
         const body = document.body;
         body.classList.toggle('high-contrast', isHighContrast);
         body.classList.toggle('grayscale', isGrayscale);
-        body.classList.toggle('text-large', fontSize === 'large');
-        body.classList.toggle('text-xlarge', fontSize === 'xlarge'); // Corrected typo here
+        body.classList.remove('text-large', 'text-xlarge'); // Clear previous font size classes
+        if (fontSize === 'large') body.classList.add('text-large');
+        if (fontSize === 'xlarge') body.classList.add('text-xlarge');
         body.classList.toggle('animations-disabled', isAnimationsDisabled);
-    }, [isHighContrast, isGrayscale, fontSize, isAnimationsDisabled]);
+
+        // --- APPLY NEW ACCESSIBILITY CLASSES ---
+        body.classList.remove('colorblind-protanopia', 'colorblind-deuteranopia', 'colorblind-tritanopia');
+        if (colorblindMode !== 'none') {
+            body.classList.add(`colorblind-${colorblindMode}`);
+        }
+
+        body.classList.toggle('font-dyslexic', isDyslexicFont);
+
+        body.classList.remove('code-high-contrast-light', 'code-futuristic-dark');
+        if (codeTheme === 'high-contrast-light') body.classList.add('code-high-contrast-light');
+        if (codeTheme === 'futuristic-dark') body.classList.add('code-futuristic-dark');
+        // ---------------------------------------
+
+    }, [isHighContrast, isGrayscale, fontSize, isAnimationsDisabled, colorblindMode, isDyslexicFont, codeTheme]);
 
     const toggleHighContrast = useCallback(() => setIsHighContrast(prev => !prev), []);
     const toggleGrayscale = useCallback(() => setIsGrayscale(prev => !prev), []);
     const toggleAnimations = useCallback(() => setIsAnimationsDisabled(prev => !prev), []);
+
+    // --- NEW ACCESSIBILITY TOGGLES/SETTERS ---
+    const toggleDyslexicFont = useCallback(() => setIsDyslexicFont(prev => !prev), []);
+    // ---------------------------------------
 
     // Function to call when loading is complete
     const handleLoadingComplete = () => {
@@ -74,14 +99,14 @@ const App = () => {
                     <TracksSection />
                     <TeamSection />
                     <GuestsSection />
-                    <RulesSection /> {/* NEW */}
-                    <SponsorsSection /> {/* NEW */}
+                    <RulesSection />
+                    <SponsorsSection />
                     <FAQSection />
-                    <TeamFinderSection /> {/* NEW */}
-                    <ResourcesSection /> {/* NEW */}
-                    <ShowcaseSection /> {/* NEW */}
+                    <TeamFinderSection />
+                    <ResourcesSection />
+                    <ShowcaseSection />
                     <ContactSection />
-                    <RegistrationSection /> {/* NEW */}
+                    <RegistrationSection />
                     <Footer />
                     <AccessibilityMenu
                         isHighContrast={isHighContrast}
@@ -92,6 +117,14 @@ const App = () => {
                         setFontSize={setFontSize}
                         isAnimationsDisabled={isAnimationsDisabled}
                         toggleAnimations={toggleAnimations}
+                        // --- NEW PROPS FOR ACCESSIBILITY MENU ---
+                        colorblindMode={colorblindMode}
+                        setColorblindMode={setColorblindMode}
+                        isDyslexicFont={isDyslexicFont}
+                        toggleDyslexicFont={toggleDyslexicFont}
+                        codeTheme={codeTheme}
+                        setCodeTheme={setCodeTheme}
+                        // ---------------------------------------
                     />
                 </>
             )}

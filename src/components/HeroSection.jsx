@@ -1,58 +1,135 @@
-import React, { useState, useEffect, useRef } from 'react';
+// src/components/HeroSection.jsx - FUTURISTIC MILITARY/APOCALYPTIC
+import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'; // Uncomment if using GLTF models
 import { motion } from 'framer-motion';
 
 const HeroSection = () => {
     const mountRef = useRef(null);
-    const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+    const animationFrameId = useRef(null);
+    const coreObjectRef = useRef(null); // Ref for the main 3D object
+    const gridLinesRef = useRef(null); // Ref for the background grid
 
-    // Three.js Scene Setup
     useEffect(() => {
         const currentMount = mountRef.current;
         if (!currentMount) return;
 
-        let scene, camera, renderer, object;
+        let scene, camera, renderer, coreObject, gridLines;
 
         const initThree = () => {
-            // Scene
             scene = new THREE.Scene();
-            scene.background = null; // Transparent background
+            scene.background = null; // Transparent
 
-            // Camera
             camera = new THREE.PerspectiveCamera(75, currentMount.clientWidth / currentMount.clientHeight, 0.1, 1000);
             camera.position.z = 5;
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
             currentMount.appendChild(renderer.domElement);
 
-            // Add a simple 3D object (e.g., a Dodecahedron)
-            const geometry = new THREE.DodecahedronGeometry(1.5); // Size of the object
-            const material = new THREE.MeshPhongMaterial({ color: 0x4A4E5C, flatShading: true }); // Indian Airforce Grey
-            object = new THREE.Mesh(geometry, material);
-            scene.add(object);
-
-            // Add Lights
-            const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
+            // Lights: Focus on the central object
+            const ambientLight = new THREE.AmbientLight(0x404040, 1.2);
             scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-            directionalLight.position.set(5, 5, 5).normalize();
-            scene.add(directionalLight);
+            const directionalLight1 = new THREE.DirectionalLight(0x64FFDA, 2.5); // Teal light from one side
+            directionalLight1.position.set(5, 5, 5).normalize();
+            scene.add(directionalLight1);
 
-            const pointLight = new THREE.PointLight(0xFF9933, 1, 100); // Saffron accent color
-            pointLight.position.set(0, 5, -5);
-            scene.add(pointLight);
+            const directionalLight2 = new THREE.DirectionalLight(0xFF4081, 1.8); // Pink light from another side
+            directionalLight2.position.set(-5, -5, -5).normalize();
+            scene.add(directionalLight2);
+
+            // --- APOCALYPTIC CORE/BEACON ---
+            // Central, robust, perhaps slightly damaged core
+            const coreGeometry = new THREE.CylinderGeometry(1.2, 1.2, 2.5, 8); // Cylinder
+            const coreMaterial = new THREE.MeshStandardMaterial({
+                color: 0x37474F, // Worn metal
+                roughness: 0.6,
+                metalness: 0.9,
+                emissive: 0x1A1A1A, // Subtle self-illumination
+                emissiveIntensity: 0.1,
+            });
+            coreObject = new THREE.Mesh(coreGeometry, coreMaterial);
+            scene.add(coreObject);
+            coreObjectRef.current = coreObject;
+
+            // Add glowing internal components (like a power core)
+            const innerSphere = new THREE.Mesh(
+                new THREE.IcosahedronGeometry(0.5, 0),
+                new THREE.MeshBasicMaterial({
+                    color: 0x64FFDA, // Teal glowing core
+                    transparent: true,
+                    opacity: 0.7,
+                    blending: THREE.AdditiveBlending
+                })
+            );
+            coreObject.add(innerSphere); // Attach to core object
+
+            // Add a subtle particle field around the core
+            const particleCount = 1000;
+            const particleGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3 + 0] = (Math.random() * 2 - 1) * 8;
+                positions[i * 3 + 1] = (Math.random() * 2 - 1) * 8;
+                positions[i * 3 + 2] = (Math.random() * 2 - 1) * 8;
+            }
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0xFF4081, // Pink dust/energy
+                size: 0.03,
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.4
+            });
+            const particles = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particles);
+
+            // --- Background Grid Lines (Abstract Data/Control Field) ---
+            const gridMaterial = new THREE.LineBasicMaterial({
+                color: 0x64FFDA, // Teal
+                transparent: true,
+                opacity: 0.15
+            });
+            gridLines = new THREE.Group();
+            gridLinesRef.current = gridLines; // Store reference
+
+            const gridSize = 15;
+            const gridDivisions = 20;
+            const step = gridSize / gridDivisions;
+
+            for (let i = -gridSize / 2; i <= gridSize / 2; i += step) {
+                // Vertical lines
+                const vLinePoints = [];
+                vLinePoints.push(new THREE.Vector3(i, -gridSize / 2, 0));
+                vLinePoints.push(new THREE.Vector3(i, gridSize / 2, 0));
+                gridLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(vLinePoints), gridMaterial));
+
+                // Horizontal lines
+                const hLinePoints = [];
+                hLinePoints.push(new THREE.Vector3(-gridSize / 2, i, 0));
+                hLinePoints.push(new THREE.Vector3(gridSize / 2, i, 0));
+                gridLines.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(hLinePoints), gridMaterial));
+            }
+            gridLines.position.z = -5; // Place behind the core
+            scene.add(gridLines);
+
 
             // Animation Loop
             const animate = () => {
-                requestAnimationFrame(animate);
-                if (object) {
-                    object.rotation.x += 0.002;
-                    object.rotation.y += 0.003;
+                animationFrameId.current = requestAnimationFrame(animate);
+
+                if (coreObjectRef.current) {
+                    coreObjectRef.current.rotation.x += 0.002;
+                    coreObjectRef.current.rotation.y += 0.003;
+                    // Inner sphere pulse
+                    coreObjectRef.current.children[0].scale.setScalar(1 + Math.sin(Date.now() * 0.003) * 0.1);
                 }
+                if (gridLinesRef.current) {
+                    gridLinesRef.current.rotation.x += 0.0005;
+                    gridLinesRef.current.rotation.y += 0.0003;
+                }
+                particles.rotation.y += 0.0008;
+
                 renderer.render(scene, camera);
             };
             animate();
@@ -66,108 +143,119 @@ const HeroSection = () => {
             window.addEventListener('resize', handleResize);
 
             return () => {
+                cancelAnimationFrame(animationFrameId.current);
                 window.removeEventListener('resize', handleResize);
                 if (currentMount && renderer.domElement) {
                     currentMount.removeChild(renderer.domElement);
                 }
+                // Dispose Three.js assets
+                coreObject.geometry.dispose();
+                coreObject.material.dispose();
+                innerSphere.geometry.dispose();
+                innerSphere.material.dispose();
+                particleGeometry.dispose();
+                particleMaterial.dispose();
+                gridLines.children.forEach(line => { line.geometry.dispose(); line.material.dispose(); });
                 renderer.dispose();
-                geometry.dispose();
-                material.dispose();
             };
         };
 
         initThree();
     }, []);
 
-    // Countdown Timer Logic (assuming same target date)
-    useEffect(() => {
-        const targetDate = new Date('September 6, 2025 00:00:00 GMT+0530').getTime(); // IST (GMT+5:30)
-
-        const calculateTimeLeft = () => {
-            const now = new Date().getTime();
-            const difference = targetDate - now;
-
-            if (difference < 0) {
-                return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-            }
-
-            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-            return { days, hours, minutes, seconds };
-        };
-
-        setCountdown(calculateTimeLeft()); // Initial calculation
-        const timer = setInterval(() => {
-            setCountdown(calculateTimeLeft());
-        }, 1000);
-
-        return () => clearInterval(timer);
-    }, []);
-
     return (
-        <section id="home" style={{ background: 'linear-gradient(to right top, var(--color-strategic-dark), var(--color-indian-navy-blue), var(--color-indian-airforce-grey))' }}>
-            <div ref={mountRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}></div>
-            <div className="container" style={{ textAlign: 'center', zIndex: 2, position: 'relative' }}>
+        <section id="home" style={{
+            background: 'linear-gradient(to bottom, var(--color-background) 0%, var(--color-surface) 100%)',
+            position: 'relative',
+            overflow: 'hidden',
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'var(--color-text-primary)',
+            borderBottom: '1px solid rgba(255, 64, 129, 0.2)'
+        }}>
+            <div ref={mountRef} style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 'var(--z-index-background)',
+            }}></div>
+
+            {/* Content Overlay */}
+            <div className="container" style={{
+                position: 'relative',
+                zIndex: 'var(--z-index-content)',
+                textAlign: 'center',
+                padding: 'var(--spacing-xl)',
+                backgroundColor: 'rgba(0, 0, 0, 0.4)', /* Semi-transparent dark overlay */
+                backdropFilter: 'blur(3px)', /* Slight blur for depth */
+                border: '1px solid rgba(255, 64, 129, 0.1)', /* Subtle border glow */
+                borderRadius: 'var(--border-radius-md)',
+                boxShadow: '0 0 20px rgba(0,0,0,0.8), inset 0 0 10px rgba(255, 64, 129, 0.1)', /* Inner shadow for depth */
+                maxWidth: '900px',
+                margin: '0 auto',
+                textTransform: 'uppercase',
+            }}>
                 <motion.h1
-                    initial={{ opacity: 0, y: -50 }}
+                    initial={{ opacity: 0, y: -30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    style={{ fontSize: '4.5rem', marginBottom: 'var(--spacing-md)', textShadow: '0 0 15px rgba(255, 153, 51, 0.5)' }} /* Saffron text shadow */
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                    style={{
+                        fontSize: 'clamp(3rem, 7vw, 4.5rem)',
+                        color: 'var(--color-text-primary)',
+                        textShadow: `0 0 8px var(--color-accent-2), 0 0 15px var(--color-accent-1)`,
+                        marginBottom: 'var(--spacing-md)',
+                        letterSpacing: '0.1em',
+                    }}
                 >
                     Algo Nirman
                 </motion.h1>
                 <motion.p
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-                    style={{ fontSize: '1.5rem', marginBottom: 'var(--spacing-lg)', fontFamily: 'var(--font-subheading)', color: 'var(--color-text-secondary)' }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                    style={{
+                        fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)',
+                        color: 'var(--color-accent-2)',
+                        maxWidth: '90%',
+                        margin: '0 auto var(--spacing-lg) auto',
+                        fontFamily: 'var(--font-mono)',
+                        letterSpacing: '0.05em',
+                    }}
                 >
-                    Forge the Future of Defense Tech
+                    Rebuilding the Future, Line by Line.
                 </motion.p>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-                    style={{ display: 'flex', justifyContent: 'center', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}
+                <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1 }}
+                    style={{
+                        fontSize: 'var(--font-size-md)',
+                        color: 'var(--color-text-secondary)',
+                        maxWidth: '80%',
+                        margin: '0 auto var(--spacing-xl) auto',
+                    }}
                 >
-                    {Object.entries(countdown).map(([unit, value]) => (
-                        <div key={unit} style={{
-                            backgroundColor: 'rgba(0,0,0,0.4)',
-                            padding: 'var(--spacing-sm) var(--spacing-md)',
-                            borderRadius: 'var(--border-radius-md)',
-                            minWidth: '100px',
-                            textAlign: 'center',
-                            border: '1px solid rgba(255, 153, 51, 0.3)', /* Saffron accent border */
-                            fontFamily: 'monospace',
-                            fontSize: '1.8rem',
-                            fontWeight: 'bold',
-                            color: 'var(--color-saffron-accent)' /* Saffron accent color */
-                        }}>
-                            {String(value).padStart(2, '0')}
-                            <p style={{ fontSize: '0.8rem', textTransform: 'uppercase', color: 'var(--color-text-secondary)', marginTop: '0.2rem' }}>{unit}</p>
-                        </div>
-                    ))}
-                </motion.div>
+                    Join the last stand of innovation. Your code is the ultimate weapon.
+                </motion.p>
                 <motion.a
                     href="#register"
                     className="button"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 1.2, type: "spring", stiffness: 100 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                        borderColor: 'var(--color-accent-2)', /* Use cyan for button border */
+                        background: 'var(--color-accent-1)'
+                    }}
                 >
-                    Register Now
+                    Deploy Protocol
                 </motion.a>
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1.2, duration: 0.8 }}
-                    style={{ marginTop: 'var(--spacing-md)', fontSize: '1.1rem', color: 'var(--color-text-secondary)' }}
-                >
-                    A National-Level Hackathon by Vectorix Community
-                </motion.p>
             </div>
         </section>
     );
